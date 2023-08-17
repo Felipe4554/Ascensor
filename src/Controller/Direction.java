@@ -9,6 +9,6 @@ package Controller;
  * @author ´Felipe Chacón
  */
 public enum Direction {
-    UP, DOWN
+    UP, DOWN, STOP
 }
 

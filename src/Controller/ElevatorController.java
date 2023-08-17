@@ -5,7 +5,8 @@
 package Controller;
 
 import Model.RequestList;
-import java.util.Queue;
+import Controller.Direction;
+import View.ElevatorView;
 
 /**
  *
@@ -15,7 +16,7 @@ public class ElevatorController {
     private int currentFloor;
     private int destinationFloor;
     private Direction direction;
-    private Queue<RequestList> requestQueue;
+    private RequestList requestList; // Use RequestList instead of Queue<RequestList>
 
     public int getCurrentFloor() {
         return currentFloor;
@@ -41,22 +42,53 @@ public class ElevatorController {
         this.direction = direction;
     }
 
-    public Queue<RequestList> getRequestQueue() {
-        return requestQueue;
-    }   
+    public RequestList getRequestList() {
+        return requestList;
+    }
 
-    public void addRequest(RequestList request) {
-        
+    public void setRequestList(RequestList requestList) {
+        this.requestList = requestList;
+    }
+    
+    
+    public void receiveUserRequest(int floor, Direction direction) {
+        requestList.addRequest(floor, direction);
     }
 
     public void processNextRequest() {
-        
+        int nextFloor = requestList.processNextRequest(currentFloor, direction);
+        setDestinationFloor(nextFloor);
+    }
+    
+    private void updateView() {
+        ElevatorView elevatorView = new ElevatorView(); // Create an instance of ElevatorView
+        elevatorView.updateView(currentFloor, destinationFloor, direction); // Call the updateView method in ElevatorView
     }
 
     public void moveToFloor(int floor) {
-        
+        if (floor > currentFloor) {
+            direction = Direction.UP;
+        } else if (floor < currentFloor) {
+            direction = Direction.DOWN;
+        } else {
+            direction = Direction.STOP; // Elevator is already at the desired floor
+            return;
     }
 
-    // Other methods to get elevator status and information
+    while (currentFloor != floor) {
+        // Simulate moving the elevator one floor at a time
+        if (direction == Direction.UP) {
+            currentFloor++;
+        } else if (direction == Direction.DOWN) {
+            currentFloor--;
+        }
+
+        updateView(); // Update the view to show the current floor
+    }
+
+        direction = Direction.STOP; // Stop the elevator after reaching the desired floor
+        updateView(); // Update the view to show the final state
+    }
+
 }
 
