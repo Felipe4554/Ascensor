@@ -57,5 +57,9 @@ public class RequestList {
         return selectedFloor;
     }
     
+    public boolean hasRequests() {
+    return !upRequests.isEmpty() || !downRequests.isEmpty();
+}
+    
     // Otros métodos para gestionar y organizar las solicitudes
 }

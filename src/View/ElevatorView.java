@@ -4,17 +4,18 @@
  */
 package View;
 
-/**
- *
- * @author ´Felipe Chacón
- */
-public class ElevatorView {
+import Controller.Direction;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+public class ElevatorView {
+    // Otros atributos y métodos relevantes para la vista
+    
+    public void updateView(int currentFloor, int destinationFloor, Direction direction) {
+        // Implementación para mostrar el estado actual del ascensor en la interfaz de usuario
+        System.out.println("Current Floor: " + currentFloor);
+        System.out.println("Destination Floor: " + destinationFloor);
+        System.out.println("Direction: " + direction);
+        // Actualiza la interfaz de usuario con la información proporcionada
     }
     
+    // Otros métodos para mostrar información relevante en la vista
 }

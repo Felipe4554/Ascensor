@@ -60,7 +60,7 @@ public class ElevatorController {
         setDestinationFloor(nextFloor);
     }
     
-    private void updateView() {
+    public void updateView() {
         ElevatorView elevatorView = new ElevatorView(); // Create an instance of ElevatorView
         elevatorView.updateView(currentFloor, destinationFloor, direction); // Call the updateView method in ElevatorView
     }
@@ -89,6 +89,5 @@ public class ElevatorController {
         direction = Direction.STOP; // Stop the elevator after reaching the desired floor
         updateView(); // Update the view to show the final state
     }
-
 }
 

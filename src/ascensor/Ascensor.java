@@ -4,17 +4,35 @@
  */
 package ascensor;
 
-/**
- *
- * @author ´Felipe Chacón
- */
-public class Ascensor {
+import Controller.Direction;
+import Controller.ElevatorController;
+import Model.RequestList;
+import View.ElevatorView;
 
-    /**
-     * @param args the command line arguments
-     */
+public class Ascensor {
     public static void main(String[] args) {
-        // TODO code application logic here
+        RequestList requestList = new RequestList();
+        ElevatorController elevatorController = new ElevatorController();
+        elevatorController.setRequestList(requestList);
+
+        ElevatorView elevatorView = new ElevatorView(); // You can create an instance of ElevatorView here
+
+        // Simulate user requests
+        elevatorController.receiveUserRequest(9, Direction.UP);
+        elevatorController.receiveUserRequest(6, Direction.UP);
+        elevatorController.receiveUserRequest(2, Direction.DOWN);
+
+        // Process and move
+        while (elevatorController.getRequestList().hasRequests()) {
+            elevatorController.processNextRequest();
+            elevatorController.moveToFloor(elevatorController.getDestinationFloor());
+            elevatorView.updateView(
+                elevatorController.getCurrentFloor(),
+                elevatorController.getDestinationFloor(),
+                elevatorController.getDirection()
+            );
+        }
+
+        System.out.println("All requests processed. Elevator is now idle.");
     }
-    
 }
