@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
 import Controller.Direction;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RequestList {
@@ -19,22 +16,46 @@ public class RequestList {
 
     public void addRequest(int requestFloor, Direction direction) {
         if (direction == Direction.UP) {
-            upRequests.add(requestFloor);
+            // Agregar la solicitud manteniendo el orden de prioridad descendente
+            int index = Collections.binarySearch(upRequests, requestFloor, Collections.reverseOrder());
+            if (index < 0) {
+                index = -index - 1;
+            }
+            upRequests.add(index, requestFloor);
         } else if (direction == Direction.DOWN) {
-            downRequests.add(requestFloor);
+            // Agregar la solicitud manteniendo el orden de prioridad ascendente
+            int index = Collections.binarySearch(downRequests, requestFloor);
+            if (index < 0) {
+                index = -index - 1;
+            }
+            downRequests.add(index, requestFloor);
         }
-        // You can add logic to maintain priority order within each list
     }
 
     public int processNextRequest(int currentFloor, Direction direction) {
         List<Integer> requests = (direction == Direction.UP) ? upRequests : downRequests;
+
+        // Implementar lógica para seleccionar y eliminar la siguiente solicitud basada en prioridad
+        int selectedFloor = -1; // Inicializar con un valor que indique que no se ha seleccionado ningún piso
         
-        // Implement logic to select and remove the next request based on priority
-        // and considering the current floor and direction of movement
+        if (!requests.isEmpty()) {
+            // Encontrar el piso más cercano en la dirección de movimiento
+            int minDistance = Integer.MAX_VALUE;
+            for (Integer floor : requests) {
+                int distance = Math.abs(floor - currentFloor);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    selectedFloor = floor;
+                }
+            }
+            
+            // Eliminar el piso seleccionado de la lista de solicitudes
+            requests.remove(Integer.valueOf(selectedFloor));
+        }
         
-        // Return the selected request floor
+        // Devolver el piso de la solicitud seleccionada
         return selectedFloor;
     }
     
-    // Other methods to manage and organize the requests
+    // Otros métodos para gestionar y organizar las solicitudes
 }
